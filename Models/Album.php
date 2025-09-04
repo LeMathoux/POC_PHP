@@ -1,22 +1,31 @@
 <?php
 
+include_once './ConnexionBD.php';
+
 class Album extends Media{
 
-    private int $songNumber;
+    private ?int $id;
+    private int $trackNumber;
     private string $editor;
     private array $songs;
 
-    public function __construct(int $id, string $titre, string $auteur, bool $disponible, int $songNumber, string $editor, array $songs)
+    public function __construct(string $title, string $author, bool $available, int $trackNumber, string $editor, array $songs, ?int $mediaId = null, ?int $id = null)
     {
-        parent::__construct($id, $titre,$auteur,$disponible);
-        $this->songNumber = $songNumber;
+        parent::__construct($title, $author, $available, $mediaId);
+        $this->id = $id;
+        $this->trackNumber = $trackNumber;
         $this->editor = $editor;
         $this->songs = $songs;
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getSongNumber(): ?int
     {
-        return $this->songNumber;
+        return $this->trackNumber;
     }
 
     public function getEditor(): ?string
@@ -29,9 +38,14 @@ class Album extends Media{
         return $this->songs;
     }
 
-    public function setSongNumber(int $songNumber)
+    public function setId(int $id)
     {
-        $this->songNumber = $songNumber;
+        $this->id = $id;
+    }
+
+    public function setTrackNumber(int $trackNumber)
+    {
+        $this->trackNumber = $trackNumber;
     }
 
     public function setEditor(string $editor)
@@ -49,7 +63,7 @@ class Album extends Media{
         }
     }
 
-    public function removeSonge(Song $song): ?bool
+    public function removeSong(Song $song): ?bool
     {
         if(in_array($song, $this->songs)){
             $this->songs = array_diff($this->songs,$song);
