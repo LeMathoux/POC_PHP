@@ -1,6 +1,6 @@
 <?php
 
-include_once './ConnexionBD.php';
+require_once __DIR__.'/../Models/ConnexionBD.php';
 
 class Song{
     
