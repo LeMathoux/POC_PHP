@@ -5,41 +5,48 @@
     <title>Connexion</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="flex items-center justify-center h-screen bg-gray-100">
-    <div class="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Se connecter</h1>
+<body class="bg-gray-100">
+    
+    <?php require_once('Views/components/navbar.php'); ?>
 
-        <form method="POST" action="" class="space-y-4">
-            <div>
-                <label class="block text-gray-700 mb-1" for="email">Email</label>
-                <input type="email" id="email" name="email" required
-                       class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <div>
-                <label class="block text-gray-700 mb-1" for="password">Mot de passe</label>
-                <input type="password" id="password" name="password" required
-                       class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <button type="submit"
-                    class="w-full bg-blue-500 text-white py-2 rounded-xl shadow hover:bg-blue-600 transition">
-                Se connecter
-            </button>
-        </form>
+    <div class="flex items-center justify-center h-[80vh]">
+        <div class="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md">
+            <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Se connecter</h1>
 
-        <?php
-            if(isset($errors) && !empty($errors)){
-                echo"<p class='bg-red-100 text-red-700 p-3 rounded mb-4 text-center mt-[10px]' id='errorMsg'>";
-                foreach($errors as $error){
-                    echo $error."<br>";
+            <form method="POST" action="" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-1" for="email">Email</label>
+                    <input type="email" id="email" name="email" required
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-1" for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" required
+                        class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <button type="submit"
+                        class="w-full bg-blue-500 text-white py-2 rounded-xl shadow hover:bg-blue-600 transition">
+                    Se connecter
+                </button>
+            </form>
+
+            <?php
+                if(isset($errors) && !empty($errors)){
+                    echo"<p class='bg-red-100 text-red-700 p-3 rounded mb-4 text-center mt-[10px]' id='errorMsg'>";
+                    foreach($errors as $error){
+                        echo $error."<br>";
+                    }
+                    echo "</p>";
                 }
-                echo "</p>";
-            }
-        ?>
+            ?>
 
 
-        <p class="text-center text-gray-500 mt-4">
-            Pas encore de compte ? <a href="./connexion/registration" class="text-blue-500 hover:underline">S'inscrire</a>
-        </p>
+            <p class="text-center text-gray-500 mt-4">
+                Pas encore de compte ? <a href="<?= BASE_URL ?>/connexion/registration" class="text-blue-500 hover:underline">S'inscrire</a>
+            </p>
+        </div>
     </div>
+
+    <?php require_once('Views/components/footer.php'); ?>
 </body>
 </html>
