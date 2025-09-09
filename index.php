@@ -1,7 +1,15 @@
 <?php
 define('ROOT', str_replace('index.php', '', $_SERVER['SCRIPT_FILENAME']));
+define("BASE_URL", "/POC_PHP");
 
+
+require_once __DIR__."/Models/ConnexionBD.php";
 include_once __DIR__.'/Models/User.php';
+include_once __DIR__.'/Models/Book.php';
+include_once __DIR__.'/Models/Media.php';
+include_once __DIR__.'/Models/Album.php';
+include_once __DIR__.'/Models/Song.php';
+include_once __DIR__.'/Models/Movie.php';
 
 session_start();
 
@@ -20,11 +28,11 @@ if(isset($_GET['action']) && !empty($_GET['action'])){
 
             if (method_exists($controller, $method)) {
                 if($objectNumber != null){
-                    $params = ['id'=> $objectNumber];
+                    $params = $objectNumber;
                 }else{
                     $params = [];
                 }
-                call_user_func_array([$controller, $method], $params);
+                call_user_func_array([$controller, $method], array_values($params));
             } else {
                 require_once('Controllers/ErrorController.php');
                 $controller = new ErrorController();

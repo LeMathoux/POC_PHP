@@ -1,7 +1,6 @@
 <?php
 
-include_once './ConnexionBD.php';
-include_once './Media.php';
+include_once('Models/Media.php');
 
 enum Genre:string{
     case Policier = "Policier";

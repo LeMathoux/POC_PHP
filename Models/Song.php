@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__.'/../Models/ConnexionBD.php';
-
 class Song{
     
     private ?int $id;
@@ -182,5 +180,3 @@ class Song{
         }
     }
 }
-$song = new Song("test 5",20, 367, null, 9);
-var_dump($song->removeSong($song));

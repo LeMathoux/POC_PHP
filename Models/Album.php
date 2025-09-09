@@ -1,7 +1,5 @@
 <?php
 
-include_once './ConnexionBD.php';
-
 class Album extends Media{
 
     private ?int $id;

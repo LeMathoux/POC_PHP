@@ -70,7 +70,8 @@ class ConnexionController{
         require_once('Views/registration.php');
     }
 
-    public function logout(){
+    public function logout() :void
+    {
         session_destroy();
         header('location:../');
     }

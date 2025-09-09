@@ -1,7 +1,6 @@
 <?php
 
-include_once './ConnexionBD.php';
-include_once './Media.php';
+include_once('Models/Media.php');
 
 class Book extends Media{
 
@@ -154,7 +153,7 @@ class Book extends Media{
             $request = $connexion->prepare("UPDATE book SET page_number=:page_number WHERE id=:id;");
 
             $request->bindParam(":id",$id);
-            $request->bindParam(":page_number",$$pageNumber);
+            $request->bindParam(":page_number",$pageNumber);
             
             $request->execute();
 
@@ -191,7 +190,3 @@ class Book extends Media{
         }
     }
 }
-
-$book = new Book('test','test auh',true,12,null,null);
-var_dump(Book::getAllBooks());
-var_dump(Book::getBookById(3));
