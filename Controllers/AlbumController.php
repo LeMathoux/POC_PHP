@@ -56,6 +56,8 @@ class AlbumController{
                         return $a->getTrackNumber() <=> $b->getTrackNumber();
                     case 'editor':
                         return strcmp(strtolower($a->getEditor()), strtolower($b->getEditor()));
+                    case 'available':
+                        return $a->getAvailable() <=> $b->getAvailable();
                     default:
                         return 0;
                 }
@@ -131,7 +133,7 @@ class AlbumController{
         $errors = [];
         if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['editor']) && !empty($_POST['editor']) && isset($_POST['available']) && !empty($_POST['available'])){
+                if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['editor']) && !empty($_POST['editor']) && isset($_POST['available']) && ($_POST['available'] === '1' || $_POST['available'] === '0')){
                     $title = htmlspecialchars($_POST['title']);
                     $author = htmlspecialchars($_POST['author']);
                     $editor = htmlspecialchars($_POST['editor']);
@@ -158,7 +160,7 @@ class AlbumController{
         if($updatedAlbum instanceof Album){
             if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['editor']) && !empty($_POST['editor']) && isset($_POST['available']) && !empty($_POST['available'])){
+                if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['editor']) && !empty($_POST['editor']) && isset($_POST['available']) && ($_POST['available'] === '1' || $_POST['available'] === '0')){
                     $title = htmlspecialchars($_POST['title']);
                     $author = htmlspecialchars($_POST['author']);
                     $editor = htmlspecialchars($_POST['editor']);

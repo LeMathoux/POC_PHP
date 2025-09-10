@@ -7,7 +7,7 @@ class MovieController{
         $errors = [];
         if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['genre']) && !empty($_POST['genre']) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['available']) && !empty($_POST['available'])){
+                if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['genre']) && !empty($_POST['genre']) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['available']) && ($_POST['available'] === '1' || $_POST['available'] === '0')){
                     $title = htmlspecialchars($_POST['title']);
                     $author = htmlspecialchars($_POST['author']);
                     $duration = htmlspecialchars($_POST['duration']);
@@ -120,6 +120,8 @@ class MovieController{
                         return strcmp(strtolower($a->getGenre()->value), strtolower($b->getGenre()->value));
                     case 'duration':
                         return $a->getDuration() <=> $b->getDuration();
+                    case 'available':
+                        return $a->getAvailable() <=> $b->getAvailable();
                     default:
                         return 0;
                 }

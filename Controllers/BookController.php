@@ -51,6 +51,8 @@ class BookController{
                         return strcmp(strtolower($a->getAuthor()), strtolower($b->getAuthor()));
                     case 'page_number':
                         return $a->getPageNumber() <=> $b->getPageNumber();
+                    case 'available':
+                        return $a->getAvailable() <=> $b->getAvailable();
                     default:
                         return 0;
                 }
@@ -75,6 +77,7 @@ class BookController{
         if($book instanceof Book){
             if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
                 $book->rendre();
+                $book->updateBook();
                 header("location:".BASE_URL."/book/show/".$id);
             }else{
                 header("location:".BASE_URL."/connexion");
@@ -91,6 +94,7 @@ class BookController{
         if($book instanceof Book){
             if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
                 $book->emprunter();
+                $book->updateBook();
                 require_once('Views/books/details_book.php');
             }else{
                 header("location:".BASE_URL."/connexion");
