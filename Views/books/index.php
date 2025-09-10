@@ -30,13 +30,15 @@
                 </option>            
             </select>
 
-            <div class="flex justify-between items-center mb-6 h-[20px]">
-                <h1 class="text-3xl font-bold text-gray-800"></h1>
-                <a href="<?= BASE_URL ?>/book/new" 
-                class="px-6 py-2 bg-green-500 text-white rounded-xl shadow hover:bg-green-600 transition">
-                    + Ajouter un livre
-                </a>
-            </div>
+            <?php if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])): ?>
+                <div class="flex justify-between items-center mb-6 h-[20px]">
+                    <h1 class="text-3xl font-bold text-gray-800"></h1>
+                    <a href="<?= BASE_URL ?>/book/new" 
+                    class="px-6 py-2 bg-green-500 text-white rounded-xl shadow hover:bg-green-600 transition">
+                        + Ajouter un livre
+                    </a>
+                </div>
+            <?php endif; ?>
         </form>
 
         <div class="overflow-x-auto bg-white rounded-xl shadow">

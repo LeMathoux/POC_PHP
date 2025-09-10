@@ -2,14 +2,14 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Movies - Médiathèque</title>
+    <title>Songs - Médiathèque</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
     <?php require_once('Views/components/navbar.php'); ?>
 
     <div class="flex flex-col bg-gray-100 h-[80vh] p-6">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Bibliothèque - Movies</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Bibliothèque - Songs</h1>
             
         <form method="post" action="" class="flex flex-col md:flex-row md:items-center mb-6 space-y-4 md:space-y-0 md:space-x-4">
             <input type="text" id="search" name='search' placeholder="Rechercher..." value="<?php if(isset($_POST['search'])){ echo $_POST['search']; } ?>"
@@ -21,23 +21,24 @@
                     class="w-full md:w-1/4 px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="title" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'title') echo 'selected'; ?>>
                     Titre
-                </option>  
-                <option value="duration" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'duration') echo 'selected'; ?>>
-                    Durée
-                </option>  
+                </option>
                 <option value="author" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'author') echo 'selected'; ?>>
                     Author
-                </option>  
-                <option value="genre" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'genre') echo 'selected'; ?>>
-                    Genre
-                </option>            
+                </option>
+                <option value="note" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'note') echo 'selected'; ?>>
+                    Note
+                </option>
+                <option value="duration" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'duration') echo 'selected'; ?>>
+                    Durée
+                </option>   
             </select>
+
             <?php if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])): ?>
                 <div class="flex justify-between items-center mb-6 h-[20px]">
                     <h1 class="text-3xl font-bold text-gray-800"></h1>
-                    <a href="<?= BASE_URL ?>/movie/new" 
+                    <a href="<?= BASE_URL ?>/song/new" 
                     class="px-6 py-2 bg-green-500 text-white rounded-xl shadow hover:bg-green-600 transition">
-                        + Ajouter un film
+                        + Ajouter un son
                     </a>
                 </div>
             <?php endif; ?>
@@ -48,22 +49,20 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Titre</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Auteur</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Durée</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Genre</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">duree</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Note</th>
                         <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="booksTable" class="bg-white divide-y divide-gray-200">
                     <?php
-                    foreach($movies as $movie){
+                    foreach($songs as $song){
                     echo "<tr>
-                        <td class='px-6 py-4'>".$movie->getTitle()."</td>
-                        <td class='px-6 py-4'>".$movie->getAuthor()."</td>
-                        <td class='px-6 py-4'>".$movie->showDuration()."</td>
-                        <td class='px-6 py-4'>".$movie->getGenre()->value."</td>
+                        <td class='px-6 py-4'>".$song->getTitle()."</td>
+                        <td class='px-6 py-4'>".sprintf("%d:%02d", intdiv($song->getDuration(), 60), $song->getDuration() % 60)."</td>
+                        <td class='px-6 py-4'>".$song->getNote()."</td>
                         <td class='px-6 py-4 text-center space-x-2'>
-                            <a href='".BASE_URL."/movie/show/".$movie->getId()."' class='px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition text-sm'>Gérer</a>
+                            <a href='".BASE_URL."/song/show/".$song->getId()."' class='px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition text-sm'>Gérer</a>
                         </td>
                     </tr>";
                     }

@@ -72,9 +72,13 @@ class BookController{
 
     public function rendre(int $id){
         $book = Book::getBookById($id);
-        if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser']) && ($book instanceof Book)){
-            $book->rendre();
-            require_once('Views/movies/details_movie.php');
+        if($book instanceof Book){
+            if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
+                $book->rendre();
+                header("location:".BASE_URL."/book/show/".$id);
+            }else{
+                header("location:".BASE_URL."/connexion");
+            }
         }else{
             require_once('Controllers/ErrorController.php');
             $controller = new ErrorController();
@@ -84,9 +88,13 @@ class BookController{
 
     public function emprunter(int $id){
         $book = Book::getBookById($id);
-        if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser']) && ($book instanceof Book)){
-            $book->emprunter();
-            require_once('Views/movies/details_book.php');
+        if($book instanceof Book){
+            if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
+                $book->emprunter();
+                require_once('Views/books/details_book.php');
+            }else{
+                header("location:".BASE_URL."/connexion");
+            }
         }else{
             require_once('Controllers/ErrorController.php');
             $controller = new ErrorController();
@@ -97,10 +105,17 @@ class BookController{
     public function delete(int $id): void
     {
         $book = Book::getBookById($id);
-        if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser']) && ($book instanceof Book)){
-            $book->removeBook();
+        if($book instanceof Book){
+            if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
+                $book->removeBook();
+                header("location:".BASE_URL."/book/All");
+            }else{
+                header("location:".BASE_URL."/connexion");
+            }
         }else{
-            header("location:".BASE_URL."/book/All");
+            require_once('Controllers/ErrorController.php');
+            $controller = new ErrorController();
+            $controller->noFoundError();
         }
     }
 
@@ -108,27 +123,31 @@ class BookController{
         $errors = [];
         $updatedBook = Book::getBookById($id);
         if($updatedBook instanceof Book){
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['page_number']) && !empty($_POST['page_number']) && isset($_POST['available']) && !empty($_POST['available'])){
-                    $title = htmlspecialchars($_POST['title']);
-                    $author = htmlspecialchars($_POST['author']);
-                    $pageNumber = htmlspecialchars($_POST['page_number']);
-                    $available = htmlspecialchars($_POST['available']);
+            if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['page_number']) && !empty($_POST['page_number']) && isset($_POST['available']) && !empty($_POST['available'])){
+                        $title = htmlspecialchars($_POST['title']);
+                        $author = htmlspecialchars($_POST['author']);
+                        $pageNumber = htmlspecialchars($_POST['page_number']);
+                        $available = htmlspecialchars($_POST['available']);
 
-                    $updatedBook->setTitle($title);
-                    $updatedBook->setAuthor($author);
-                    $updatedBook->setPageNumber($pageNumber);
-                    $updatedBook->setAvailable($available);
+                        $updatedBook->setTitle($title);
+                        $updatedBook->setAuthor($author);
+                        $updatedBook->setPageNumber($pageNumber);
+                        $updatedBook->setAvailable($available);
 
-                    $updatedBook->updateBook();
+                        $updatedBook->updateBook();
 
-                    header("location:".BASE_URL."/book/All");
+                        header("location:".BASE_URL."/book/All");
 
-                }else{
-                    array_push($errors,"Un ou plusieurs champ(s) vide(s) !");
+                    }else{
+                        array_push($errors,"Un ou plusieurs champ(s) vide(s) !");
+                    }
                 }
+                require_once('Views/books/update_book.php');
+            }else{
+                header("location:".BASE_URL."/connexion");              
             }
-            require_once('Views/books/update_book.php');
         }else{
             require_once('Controllers/ErrorController.php');
             $controller = new ErrorController();
@@ -139,22 +158,26 @@ class BookController{
     public function new(): void
     {
         $errors = [];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['page_number']) && !empty($_POST['page_number']) && isset($_POST['available']) && !empty($_POST['available'])){
-                $title = htmlspecialchars($_POST['title']);
-                $author = htmlspecialchars($_POST['author']);
-                $pageNumber = htmlspecialchars($_POST['page_number']);
-                $available = htmlspecialchars($_POST['available']);
+        if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['page_number']) && !empty($_POST['page_number']) && isset($_POST['available']) && !empty($_POST['available'])){
+                    $title = htmlspecialchars($_POST['title']);
+                    $author = htmlspecialchars($_POST['author']);
+                    $pageNumber = htmlspecialchars($_POST['page_number']);
+                    $available = htmlspecialchars($_POST['available']);
 
-                $newBook = new Book($title, $author, $available, $pageNumber, null, null);
-                $newBook->addNewBook();
+                    $newBook = new Book($title, $author, $available, $pageNumber, null, null);
+                    $newBook->addNewBook();
 
-                header("location:".BASE_URL."/book/All");
+                    header("location:".BASE_URL."/book/All");
 
-            }else{
-                array_push($errors,"Un ou plusieurs champ(s) vide(s) !");
+                }else{
+                    array_push($errors,"Un ou plusieurs champ(s) vide(s) !");
+                }
             }
+            require_once('Views/books/new_book.php');
+        }else{
+            header("location:".BASE_URL."/connexion");
         }
-        require_once('Views/books/new_book.php');
     }
 }

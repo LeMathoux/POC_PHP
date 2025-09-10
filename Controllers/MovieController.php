@@ -5,23 +5,27 @@ class MovieController{
     public function new(): void
     {
         $errors = [];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['genre']) && !empty($_POST['genre']) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['available']) && !empty($_POST['available'])){
-                $title = htmlspecialchars($_POST['title']);
-                $author = htmlspecialchars($_POST['author']);
-                $duration = htmlspecialchars($_POST['duration']);
-                $genre = htmlspecialchars($_POST['genre']);
-                $genreObject = Genre::from($genre);
-                $available = htmlspecialchars($_POST['available']);
+        if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['genre']) && !empty($_POST['genre']) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['available']) && !empty($_POST['available'])){
+                    $title = htmlspecialchars($_POST['title']);
+                    $author = htmlspecialchars($_POST['author']);
+                    $duration = htmlspecialchars($_POST['duration']);
+                    $genre = htmlspecialchars($_POST['genre']);
+                    $genreObject = Genre::from($genre);
+                    $available = htmlspecialchars($_POST['available']);
 
-                $newMovie = new Movie($title, $author, $available, $duration, $genreObject, null, null);
-                $newMovie->addNewMovie();
+                    $newMovie = new Movie($title, $author, $available, $duration, $genreObject, null, null);
+                    $newMovie->addNewMovie();
 
-                header("location:".BASE_URL."/Movie/All");
+                    header("location:".BASE_URL."/Movie/All");
 
-            }else{
-                array_push($errors,"Un ou plusieurs champ(s) vide(s) !");
+                }else{
+                    array_push($errors,"Un ou plusieurs champ(s) vide(s) !");
+                }
             }
+        }else{
+            header("location:".BASE_URL."/connexion");                
         }
         require_once('Views/movies/new_movie.php');
     }
@@ -30,30 +34,34 @@ class MovieController{
         $errors = [];
         $updatedMovie = Movie::getMovieById($id);
         if($updatedMovie instanceof Movie){
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-               if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['genre']) && !empty($_POST['genre']) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['available']) && ($_POST['available'] === '1' || $_POST['available'] === '0')){
-                    $title = htmlspecialchars($_POST['title']);
-                    $author = htmlspecialchars($_POST['author']);
-                    $duration = htmlspecialchars($_POST['duration']);
-                    $genre = htmlspecialchars($_POST['genre']);
-                    $genreObject = Genre::from($genre);
-                    $available = htmlspecialchars($_POST['available']);
+            if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['genre']) && !empty($_POST['genre']) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['available']) && ($_POST['available'] === '1' || $_POST['available'] === '0')){
+                        $title = htmlspecialchars($_POST['title']);
+                        $author = htmlspecialchars($_POST['author']);
+                        $duration = htmlspecialchars($_POST['duration']);
+                        $genre = htmlspecialchars($_POST['genre']);
+                        $genreObject = Genre::from($genre);
+                        $available = htmlspecialchars($_POST['available']);
 
-                    $updatedMovie->setTitle($title);
-                    $updatedMovie->setAuthor($author);
-                    $updatedMovie->setGenre($genreObject);
-                    $updatedMovie->setDuration($duration);
-                    $updatedMovie->setAvailable($available);
+                        $updatedMovie->setTitle($title);
+                        $updatedMovie->setAuthor($author);
+                        $updatedMovie->setGenre($genreObject);
+                        $updatedMovie->setDuration($duration);
+                        $updatedMovie->setAvailable($available);
 
-                    $updatedMovie->updateMovie();
+                        $updatedMovie->updateMovie();
 
-                    header("location:".BASE_URL."/movie/All");
+                        header("location:".BASE_URL."/movie/All");
 
-                }else{
-                    array_push($errors,"Un ou plusieurs champ(s) vide(s) !");
+                    }else{
+                        array_push($errors,"Un ou plusieurs champ(s) vide(s) !");
+                    }
                 }
+                require_once('Views/movies/update_movie.php');
+            }else{
+                header("location:".BASE_URL."/connexion");
             }
-            require_once('Views/movies/update_movie.php');
         }else{
             require_once('Controllers/ErrorController.php');
             $controller = new ErrorController();
@@ -109,7 +117,7 @@ class MovieController{
                     case 'author':
                         return strcmp(strtolower($a->getAuthor()), strtolower($b->getAuthor()));
                     case 'genre':
-                        return $a->getGenre()->value <=> $b->getGenre()->value;
+                        return strcmp(strtolower($a->getGenre()->value), strtolower($b->getGenre()->value));
                     case 'duration':
                         return $a->getDuration() <=> $b->getDuration();
                     default:
@@ -133,10 +141,14 @@ class MovieController{
 
     public function rendre(int $id){
         $movie = Movie::getMovieById($id);
-        if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser']) && ($movie instanceof Movie)){
-
-            $movie->rendre();
-            require_once('Views/movies/details_movie.php');
+        if($movie instanceof Movie){
+            if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
+                $movie->rendre();
+                $movie->updateMovie();
+                header("location:".BASE_URL."/movie/show/$id");
+            }else{
+                header("location:".BASE_URL."/connexion");
+            }
         }else{
             require_once('Controllers/ErrorController.php');
             $controller = new ErrorController();
@@ -146,9 +158,14 @@ class MovieController{
 
     public function emprunter(int $id){
         $movie = Movie::getMovieById($id);
-        if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser']) && ($movie instanceof Movie)){
-            $movie->emprunter();
-            require_once('Views/movies/details_movie.php');
+        if($movie instanceof Movie){
+            if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
+                $movie->emprunter();
+                $movie->updateMovie();
+                header("location:".BASE_URL."/movie/show/$id");
+            }else{
+                header("location:".BASE_URL."/connexion");
+            }
         }else{
             require_once('Controllers/ErrorController.php');
             $controller = new ErrorController();
@@ -159,11 +176,17 @@ class MovieController{
     public function delete(int $id): void
     {
         $movie = Movie::getMovieById($id);
-        if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser']) && ($movie instanceof Movie)){
-            $movie->removeMovie();
-            header("location:".BASE_URL."/movie/All");
+        if($movie instanceof Movie){
+            if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
+                $movie->removeMovie();
+                header("location:".BASE_URL."/movie/All");
+            }else{
+                header("location:".BASE_URL."/connexion");
+            }
         }else{
-            header("location:".BASE_URL."/movie/All");
+            require_once('Controllers/ErrorController.php');
+            $controller = new ErrorController();
+            $controller->noFoundError();
         }
     }
 }

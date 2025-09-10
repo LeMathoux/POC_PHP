@@ -67,7 +67,7 @@ class Song{
         $this->id = $albumId;
     }
 
-    public function getAllSong(){
+    public static function getAllSong(){
         try{
             $songList = [];
 
@@ -91,7 +91,7 @@ class Song{
         }
     }
 
-    public function getSongById(int $id){
+    public static function getSongById(int $id){
         try{
             $connexion = connexion();
             $request = $connexion->prepare("SELECT * FROM song WHERE id=:id;");
@@ -100,10 +100,10 @@ class Song{
 
             $request->execute();
 
-            $songInfo = $request->fetchAll(PDO::FETCH_ASSOC);
+            $songInfo = $request->fetch(PDO::FETCH_ASSOC);
 
-            if(!empty($songInfo[0])){
-                $songObject = new Song($songInfo[0]['title'], $songInfo[0]['note'], $songInfo[0]['duration'], $songInfo['album_id'], $songInfo[0]['id']);
+            if(!empty($songInfo)){
+                $songObject = new Song($songInfo['title'], $songInfo['note'], $songInfo['duration'], $songInfo['album_id'], $songInfo['id']);
             }else{
                 $songObject = Null;
             }
@@ -113,15 +113,15 @@ class Song{
         }
     }
 
-    public function addNewSong(Song $song){
+    public function addNewSong(){
         try{
             $connexion = connexion();
             $request = $connexion->prepare("INSERT INTO song (title, note, duration, album_id) VALUES(:title, :note, :duration, :albumId);");
 
-            $title = $song->getTitle();
-            $note = $song->getNote();
-            $duration = $song->getDuration();
-            $albumId = $song->getAlbumId();
+            $title = $this->getTitle();
+            $note = $this->getNote();
+            $duration = $this->getDuration();
+            $albumId = $this->getAlbumId();
 
             $request->bindParam(":title",$title);
             $request->bindParam(":note",$note);
@@ -131,8 +131,8 @@ class Song{
             $request->execute();
 
             $getIdInserted = $connexion->lastInsertId();
-            $song->setId($getIdInserted);
-            return $song;
+            $this->setId($getIdInserted);
+            return $this;
             
         }catch(PDOException $e){
             die('Media Add Error : '.$e);
@@ -156,16 +156,16 @@ class Song{
         }
     }
 
-    public function updateSong(Song $song){
+    public function updateSong(){
         try{
             $connexion = connexion();
-            $request = $connexion->prepare("UPDATE song SET title=:title, note=:note, duration=:duration WHERE id=:id;");
+            $request = $connexion->prepare("UPDATE song SET title=:title, note=:note, duration=:duration, album_id=:albumId WHERE id=:id;");
 
-            $id = $song->getId();
-            $title = $song->getTitle();
-            $note = $song->getNote();
-            $duration = $song->getDuration();
-            $albumId = $song->getAlbumId();
+            $id = $this->getId();
+            $title = $this->getTitle();
+            $note = $this->getNote();
+            $duration = $this->getDuration();
+            $albumId = $this->getAlbumId();
 
             $request->bindParam(":id",$id);
             $request->bindParam(":title",$title);

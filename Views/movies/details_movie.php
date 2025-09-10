@@ -28,6 +28,15 @@
                 </p>
 
                 <p><span class="font-semibold">Genre :</span> <?= htmlspecialchars($movie->getGenre()->value) ?></p>
+
+                <p>
+                    <span class="font-semibold">Disponible :</span> 
+                    <?php if($movie->getAvailable()): ?>
+                        <span class="text-green-600 font-medium">Oui</span>
+                    <?php else: ?>
+                        <span class="text-red-600 font-medium">Non</span>
+                    <?php endif; ?>
+                </p>
             </div>
 
             <!-- Actions (si connecté) -->
