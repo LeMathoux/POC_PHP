@@ -18,11 +18,11 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
-                <a href="<?= BASE_URL ?>/categories" class="flex flex-col items-center justify-center bg-white p-6 rounded-2xl shadow hover:shadow-xl transition">
+                <a href="<?= BASE_URL ?>/media/All" class="flex flex-col items-center justify-center bg-white p-6 rounded-2xl shadow hover:shadow-xl transition">
                     <i class="fa-solid fa-layer-group text-5xl text-purple-600 mb-4"></i>
                     <span class="text-lg font-semibold text-gray-700">Toutes</span>
                 </a>
-                <a href="<?= BASE_URL ?>/albums" class="flex flex-col items-center justify-center bg-white p-6 rounded-2xl shadow hover:shadow-xl transition">
+                <a href="<?= BASE_URL ?>/album/All" class="flex flex-col items-center justify-center bg-white p-6 rounded-2xl shadow hover:shadow-xl transition">
                     <i class="fa-solid fa-compact-disc text-5xl text-blue-500 mb-4"></i>
                     <span class="text-lg font-semibold text-gray-700">Albums</span>
                 </a>
@@ -32,12 +32,12 @@
                     <span class="text-lg font-semibold text-gray-700">Books</span>
                 </a>
 
-                <a href="<?= BASE_URL ?>/songs" class="flex flex-col items-center justify-center bg-white p-6 rounded-2xl shadow hover:shadow-xl transition">
+                <a href="<?= BASE_URL ?>/song/All" class="flex flex-col items-center justify-center bg-white p-6 rounded-2xl shadow hover:shadow-xl transition">
                     <i class="fa-solid fa-music text-5xl text-pink-500 mb-4"></i>
                     <span class="text-lg font-semibold text-gray-700">Songs</span>
                 </a>
 
-                <a href="<?= BASE_URL ?>/movies" class="flex flex-col items-center justify-center bg-white p-6 rounded-2xl shadow hover:shadow-xl transition">
+                <a href="<?= BASE_URL ?>/movie/All" class="flex flex-col items-center justify-center bg-white p-6 rounded-2xl shadow hover:shadow-xl transition">
                     <i class="fa-solid fa-film text-5xl text-red-500 mb-4"></i>
                     <span class="text-lg font-semibold text-gray-700">Movies</span>
                 </a>

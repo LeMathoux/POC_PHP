@@ -27,6 +27,14 @@ class Movie extends Media{
         return $this->id;
     }
 
+    public function showDuration(): string
+    {
+        $duration = $this->getDuration();
+        $hours = intdiv($duration, 60);
+        $minutes = $duration%60;
+        return "$hours heure(s) et $minutes minute(s)";
+    }
+
     public function getDuration(): ?float
     {
         return $this->duration;
@@ -153,7 +161,7 @@ class Movie extends Media{
         }
     }
 
-    public function updateBook(){
+    public function updateMovie(){
         try{
             $connexion = connexion();
             $request = $connexion->prepare("UPDATE media SET title=:title, author=:author, available=:available WHERE id=:mediaId;");
@@ -162,8 +170,9 @@ class Movie extends Media{
             $author = $this->getAuthor();
             $available = $this->getAvailable();
             $duration = $this->getDuration();
-            $genre = $this->getGenre();
+            $genre = $this->getGenre()->value;
             $mediaId = $this->getMediaId();
+            $id = $this->getId();
 
             $request->bindParam(":mediaId",$mediaId);
             $request->bindParam(":title",$title);

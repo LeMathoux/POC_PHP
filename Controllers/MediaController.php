@@ -9,6 +9,6 @@ class MediaController{
 
     public function all(): void
     {
-        require_once('Views/mediaIndex.php');
+        require_once('Views/medias/index.php');
     }
 }

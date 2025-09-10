@@ -70,11 +70,38 @@ class BookController{
         }
     }
 
+    public function rendre(int $id){
+        $book = Book::getBookById($id);
+        if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser']) && ($book instanceof Book)){
+            $book->rendre();
+            require_once('Views/movies/details_movie.php');
+        }else{
+            require_once('Controllers/ErrorController.php');
+            $controller = new ErrorController();
+            $controller->noFoundError();
+        }
+    }
+
+    public function emprunter(int $id){
+        $book = Book::getBookById($id);
+        if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser']) && ($book instanceof Book)){
+            $book->emprunter();
+            require_once('Views/movies/details_book.php');
+        }else{
+            require_once('Controllers/ErrorController.php');
+            $controller = new ErrorController();
+            $controller->noFoundError();
+        }
+    }
+
     public function delete(int $id): void
     {
         $book = Book::getBookById($id);
-        $book->removeBook();
-        header("loaction:".BASE_URL."/book/All");
+        if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser']) && ($book instanceof Book)){
+            $book->removeBook();
+        }else{
+            header("location:".BASE_URL."/book/All");
+        }
     }
 
     public function update(int $id){

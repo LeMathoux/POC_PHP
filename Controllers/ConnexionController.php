@@ -25,7 +25,7 @@ class ConnexionController{
             }
         }
 
-        require_once('Views/login.php');
+        require_once('Views/security/login.php');
     }
 
     public function registration(): void
@@ -67,7 +67,7 @@ class ConnexionController{
             }
         }
 
-        require_once('Views/registration.php');
+        require_once('Views/security/registration.php');
     }
 
     public function logout() :void

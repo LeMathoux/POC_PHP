@@ -31,12 +31,12 @@
             <?php if(isset($_SESSION['currentUser']) && $_SESSION['currentUser'] instanceof User): ?>
                 <div class="flex flex-wrap gap-3 justify-center">
                     <?php if($book->getAvailable()): ?>
-                        <a href="" 
+                        <a href="<?php echo BASE_URL.'/book/emprunter/'.$book->getId(); ?>" 
                         class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
                             Emprunter
                         </a>
                     <?php else: ?>
-                        <a href="" 
+                        <a href="<?php echo BASE_URL.'/book/rendre/'.$book->getId(); ?>" 
                         class="px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition">
                             Rendre
                         </a>
