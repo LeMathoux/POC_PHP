@@ -30,7 +30,10 @@
                 </option>  
                 <option value="genre" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'genre') echo 'selected'; ?>>
                     Genre
-                </option>            
+                </option>
+                <option value="available" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'available') echo 'selected'; ?>>
+                    Disponible
+                </option>         
             </select>
             <?php if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])): ?>
                 <div class="flex justify-between items-center mb-6 h-[20px]">
@@ -51,6 +54,7 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Auteur</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Durée</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Genre</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Disponible</th>
                         <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
@@ -62,6 +66,11 @@
                         <td class='px-6 py-4'>".$movie->getAuthor()."</td>
                         <td class='px-6 py-4'>".$movie->showDuration()."</td>
                         <td class='px-6 py-4'>".$movie->getGenre()->value."</td>
+                        <td class='px-6 py-4'>"
+                            .($movie->getAvailable() 
+                                ? "<span class='text-green-600 font-medium'>Oui</span>" 
+                                : "<span class='text-red-600 font-medium'>Non</span>")
+                        ."</td>
                         <td class='px-6 py-4 text-center space-x-2'>
                             <a href='".BASE_URL."/movie/show/".$movie->getId()."' class='px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition text-sm'>Gérer</a>
                         </td>
