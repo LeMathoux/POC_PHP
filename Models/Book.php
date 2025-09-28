@@ -7,6 +7,17 @@ class Book extends Media{
     private ?int $id;
     private int $pageNumber;
 
+    /**
+     * Constructeur de la classe Book.
+     * 
+     * @param string $title
+     * @param string $author
+     * @param bool $available
+     * @param int $pageNumber
+     * @param int|null $mediaId
+     * @param int|null $id
+     * 
+     */
     public function __construct(string $title, string $author, bool $available, int $pageNumber, ?int $mediaId = null, ?int $id = null)
     {
         parent::__construct($title, $author, $available, $mediaId);
@@ -14,37 +25,66 @@ class Book extends Media{
         $this->pageNumber = $pageNumber;
     }
 
+    /**
+     * récupére l'id du livre.
+     * 
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPageNumber(): ?int
+    /**
+     * récupére le nombre de pages du livre.
+     * 
+     * @return int
+     */
+    public function getPageNumber(): int
     {
         return $this->pageNumber;
     }
     
+    /**
+     * récupére l'id du média du livre.
+     * 
+     * @return int|null
+     */
     public function getMediaId(): ?int
     {
         return parent::getId();
     }
 
-    public function setId(int $id)
+    /**
+     * Définit l'id du livre.
+     * 
+     * @param int $id
+     *
+     */
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function setPageNumber(int $pageNumber)
+    /**
+     * Définit le nombre de pages du livre.
+     * 
+     * @param int $pageNumber
+     *
+     */
+    public function setPageNumber(int $pageNumber): void
     {
         $this->pageNumber = $pageNumber;
     }
 
-    public function setMediaId(int $mediaId)
+    /**
+     * récupére un livre via son identifiant
+     * 
+     * @param int $id L'identifiant du livre
+     * @return Book|null Objet livre
+     */
+    public static function getBookById(int $id): ?Book
     {
-        parent::setId($mediaId);
-    }
-
-    public static function getBookById(int $id){
         try{
 
             $connexion = connexion();
@@ -69,7 +109,13 @@ class Book extends Media{
         }
     }
 
-    public static function getAllBooks(){
+    /**
+     * récupére l'ensemble des livres
+     * 
+     * @return array
+     */
+    public static function getAllBooks(): array
+    {
         try{
             $booksList = [];
 
@@ -92,7 +138,12 @@ class Book extends Media{
         }
     }
 
-    public function addNewBook()
+    /**
+     * Ajoute le livre dans la base de donnée.
+     * 
+     * @return Book
+     */
+    public function addNewBook(): Book
     {
         try{
             $connexion = connexion();
@@ -131,7 +182,13 @@ class Book extends Media{
         }
     }
 
-    public function updateBook(){
+    /**
+     * modifie le livre dans la base de donnée.
+     * 
+     * @return Book
+     */
+    public function updateBook(): Book
+    {
         try{
             $connexion = connexion();
             $request = $connexion->prepare("UPDATE media SET title=:title, author=:author, available=:available WHERE id=:mediaId;");
@@ -164,7 +221,13 @@ class Book extends Media{
         }
     }
 
-    public function removeBook(){
+    /**
+     * supprime le livre de la base de donnée.
+     * 
+     * @return boolean
+     */
+    public function removeBook(): bool
+    {
         try{
             $connexion = connexion();
             

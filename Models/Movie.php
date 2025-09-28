@@ -14,6 +14,18 @@ class Movie extends Media{
     private float $duration;
     private Genre $genre;
 
+    /**
+     * Constructeur de la classe Movie.
+     * 
+     * @param string $title
+     * @param string $author
+     * @param bool $available
+     * @param int $duration
+     * @param Genre $genre
+     * @param int|null $mediaId
+     * @param int|null $id
+     * 
+     */
     public function __construct(string $title, string $author, bool $available, float $duration, Genre $genre, ?int $mediaId = null, ?int $id = null)
     {
         parent::__construct($title,$author,$available, $mediaId);
@@ -22,11 +34,21 @@ class Movie extends Media{
         $this->genre = $genre;
     }
 
+    /**
+     * récupére l'id du film
+     * 
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * récupére la durée pour affichage
+     * 
+     * @return string
+     */
     public function showDuration(): string
     {
         $duration = $this->getDuration();
@@ -35,42 +57,77 @@ class Movie extends Media{
         return "$hours heure(s) et $minutes minute(s)";
     }
 
-    public function getDuration(): ?float
+    /**
+     * récupére la durée pour affichage
+     * 
+     * @return float
+     */
+    public function getDuration(): float
     {
         return $this->duration;
     }
 
-    public function getGenre(): ?Genre
+    /**
+     * récupére le genre du film
+     * 
+     * @return Genre
+     */
+    public function getGenre(): Genre
     {
         return $this->genre;
     }
-        
+    
+    /**
+     * récupére l'identifiant du média du film
+     * 
+     * @return int|null
+     */
     public function getMediaId(): ?int
     {
         return parent::getId();
     }
 
-    public function setId(int $id)
+    /**
+     * Définit l'id du film
+     * 
+     * @param int $id
+     *
+     */
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function setDuration(float $duration)
+    /**
+     * Définit la durée du film
+     * 
+     * @param float $duration
+     *
+     */
+    public function setDuration(float $duration): void
     {
         $this->duration = $duration;
     }
 
-    public function setGenre(Genre $genre){
+    /**
+     * Définit le genre du film
+     * 
+     * @param Genre $genre
+     *
+     */
+    public function setGenre(Genre $genre): void
+    {
         $this->genre = $genre;
     }
-    
-    public function setMediaId(int $mediaId)
-    {
-        parent::setId($mediaId);
-    }
 
-    
-    public static function getMovieById(int $id){
+    /**
+     * récupére un film via son identifiant
+     * 
+     * @param int $id L'identifiant du film
+     * @return Movie|null Objet film
+     */
+    public static function getMovieById(int $id): ?Movie
+    {
         try{
 
             $connexion = connexion();
@@ -96,7 +153,13 @@ class Movie extends Media{
         }
     }
 
-    public static function getAllMovies(){
+    /**
+     * récupére l'ensemble des films
+     * 
+     * @return array
+     */
+    public static function getAllMovies(): array
+    {
         try{
             $moviesList = [];
 
@@ -120,7 +183,12 @@ class Movie extends Media{
         }
     }
 
-    public function addNewMovie()
+    /**
+     * Ajoute le film en base de donnée.
+     * 
+     * @return Movie Objet film
+     */
+    public function addNewMovie(): Movie
     {
         try{
             $connexion = connexion();
@@ -161,7 +229,13 @@ class Movie extends Media{
         }
     }
 
-    public function updateMovie(){
+    /**
+     * modifie le film dans la base de donnée.
+     * 
+     * @return Movie
+     */
+    public function updateMovie(): Movie
+    {
         try{
             $connexion = connexion();
             $request = $connexion->prepare("UPDATE media SET title=:title, author=:author, available=:available WHERE id=:mediaId;");
@@ -196,7 +270,13 @@ class Movie extends Media{
         }
     }
 
-    public function removeMovie(){
+    /**
+     * supprime le film de la base de donnée.
+     * 
+     * @return boolean
+     */
+    public function removeMovie(): bool
+    {
         try{
             $connexion = connexion();
             

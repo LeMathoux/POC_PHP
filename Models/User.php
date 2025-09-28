@@ -9,7 +9,18 @@ class User{
     private ?\DateTime $created_at;
     private ?\DateTime $updated_at;
 
-    public function __construct(string $email, string $password, ?string $userName = null, ?\DateTime $created_at = null, ?\datetime $updated_at = null, ?int $id = null )
+    /**
+     * Constructeur de la classe User.
+     * 
+     * @param string $email
+     * @param string $password
+     * @param string $userName
+     * @param \Datetime $created_at
+     * @param \Datetime|null $updated_at
+     * @param int|null $id
+     * 
+     */
+    public function __construct(string $email, string $password, ?string $userName = null, ?\DateTime $created_at = null, ?\DateTime $updated_at = null, ?int $id = null )
     {
         $this->userName = $userName;
         $this->id = $id;
@@ -19,54 +30,125 @@ class User{
         $this->updated_at = $updated_at;
     }
 
+    /**
+     * récupére le nom du compte
+     * 
+     * @return string
+     */
     public function getUserName() {
         return $this->userName;
     }
 
-    public function setUserName($userName) {
+    /**
+     * Définit le nom du compte
+     * 
+     * @param string $userName
+     *
+     */
+    public function setUserName(string $userName) {
         $this->userName = $userName;
     }
 
+    /**
+     * récupére l'identifiant du compte
+     * 
+     * @return int 
+     */
     public function getId() {
         return $this->id;
     }
 
-    public function setId($id) {
+    /**
+     * Définit l'id du compte
+     * 
+     * @param int $id
+     *
+     */
+    public function setId(int $id) {
         $this->id = $id;
     }
 
+    /**
+     * récupére l'email du compte
+     * 
+     * @return string 
+     */
     public function getEmail() {
         return $this->email;
     }
 
-    public function setEmail($email) {
+    /**
+     * Définit l'email du compte
+     * 
+     * @param string $email
+     *
+     */
+    public function setEmail(string $email) {
         $this->email = $email;
     }
 
+    /**
+     * récupére le mot de passe hashé du compte
+     * 
+     * @return string 
+     */
     public function getPassword() {
         return $this->password;
     }
 
-    public function setPassword($password) {
+    /**
+     * Définit le mot de passe du compte
+     * 
+     * @param string $password
+     *
+     */    
+    public function setPassword(string $password) {
         $this->password = $password;
     }
 
+    /**
+     * récupére la date de création du compte
+     * 
+     * @return \DateTime 
+     */
     public function getCreatedAt() {
         return $this->created_at;
     }
 
+    /**
+     * Définit la date de création du compte
+     * 
+     * @param \DateTime $created_at
+     *
+     */    
     public function setCreatedAt(\DateTime $created_at) {
         $this->created_at = $created_at;
     }
 
+    /**
+     * récupére la date de mise à jour du compte
+     * 
+     * @return \DateTime 
+     */
     public function getUpdatedAt() {
         return $this->updated_at;
     }
 
+    /**
+     * Définit la date de mise à jour du compte
+     * 
+     * @param \DateTime $updated_at
+     *
+     */   
     public function setUpdatedAt(\DateTime $updated_at) {
         $this->updated_at = $updated_at;
     }
     
+    /**
+     * Ajoute un nouvel utilisateur dans la base de donnée.
+     * 
+     * @return User $this Objet User 
+     */
     public function addNewUser(){
         try{
             $connexion = connexion();
@@ -100,6 +182,12 @@ class User{
         }
     }
 
+    /**
+     * Verifie si l'utilisateur existe et que ses informations sont corrects.
+     * 
+     * @return User si l'utilisateur est autorisé.
+     * @return boolean false si l'utilisateur est refusé.
+     */
     public function verificationAuth(){
         try{
             $connexion = connexion();

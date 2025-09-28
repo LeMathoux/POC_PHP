@@ -8,6 +8,17 @@ class Song{
     private int $duration;
     private ?int $albumId;
 
+    /**
+     * Constructeur de la classe Song.
+     * 
+     * @param string $title
+     * @param int $note
+     * @param int $duration
+     * @param int|null $albumId
+     * @param \Datetime|null $updated_at
+     * @param int|null $id
+     * 
+     */
     public function __construct(string $title, int $note, int $duration, ?int $albumId = null, ?int $id = null)
     {
         $this->id = $id;
@@ -17,57 +28,118 @@ class Song{
         $this->albumId =$albumId;
     }
 
+    /**
+     * récupére l'id de la musique
+     * 
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    /**
+     * récupére le titre de la musique
+     * 
+     * @return string
+     */
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getNote(): ?int
+    /**
+     * récupére la note de la musique
+     * 
+     * @return int
+     */
+    public function getNote(): int
     {
         return $this->note;
     }
 
-    public function getDuration(): ?int
+    /**
+     * récupére la durée de la musique
+     * 
+     * @return int
+     */
+    public function getDuration(): int
     {
         return $this->duration;
     }
-    
+
+    /**
+     * récupére l'id de l'album de la musique
+     * 
+     * @return int|null
+     */
     public function getAlbumId(): ?int
     {
         return $this->albumId;
     }
 
+    /**
+     * Définit l'id de la musique
+     * 
+     * @param int $id
+     *
+     */
     public function setId(int $id)
     {
         $this->id = $id;
     }
 
+    /**
+     * Définit le titre de la musique
+     * 
+     * @param string $title
+     *
+     */
     public function setTitle(string $title)
     {
         $this->title = $title;
     }
 
+    /**
+     * Définit la note de la musique
+     * 
+     * @param int $note
+     *
+     */
     public function setNote(int $note)
     {
         $this->note = $note;
     }
 
+    /**
+     * Définit la durée de la musique
+     * 
+     * @param int $duration
+     *
+     */
     public function setDuration(int $duration)
     {
         $this->duration = $duration;
     }
 
+    /**
+     * Définit l'id de l'album de la musique
+     * 
+     * @param int $albumId
+     *
+     */
     public function setAlbumId(int $albumId)
     {
         $this->id = $albumId;
     }
 
-    public static function getAllSong(){
+    /**
+     * récupére l'ensemble des musiques
+     * 
+     * @return array
+     */
+    public static function getAllSong() :array
+    {
         try{
             $songList = [];
 
@@ -87,11 +159,17 @@ class Song{
 
         }catch(ErrorException $e){
             die('Media Get All Media Error : '.$e);
-            return null;
         }
     }
 
-    public static function getSongById(int $id){
+    /**
+     * récupére une musique
+     * 
+     * @param int $id L'identifiant de la musique
+     * @return Song Objet musique
+     */
+    public static function getSongById(int $id): Song
+    {
         try{
             $connexion = connexion();
             $request = $connexion->prepare("SELECT * FROM song WHERE id=:id;");
@@ -113,7 +191,13 @@ class Song{
         }
     }
 
-    public function addNewSong(){
+    /**
+     * Ajoute la musique en base de donnée.
+     * 
+     * @return Song Objet musique
+     */
+    public function addNewSong(): Song
+    {
         try{
             $connexion = connexion();
             $request = $connexion->prepare("INSERT INTO song (title, note, duration, album_id) VALUES(:title, :note, :duration, :albumId);");
@@ -139,7 +223,13 @@ class Song{
         }
     }
 
-    public function removeSong(Song $song){
+    /**
+     * supprimer la musique de la base de donnée.
+     * 
+     * @return boolean
+     */
+    public function removeSong(Song $song): bool
+    {
         try{
             $connexion = connexion();
             $request = $connexion->prepare("DELETE FROM song WHERE id=:id");
@@ -156,7 +246,13 @@ class Song{
         }
     }
 
-    public function updateSong(){
+    /**
+     * modifie la musique dans la base de donnée.
+     * 
+     * @return boolean
+     */
+    public function updateSong(): bool
+    {
         try{
             $connexion = connexion();
             $request = $connexion->prepare("UPDATE song SET title=:title, note=:note, duration=:duration, album_id=:albumId WHERE id=:id;");

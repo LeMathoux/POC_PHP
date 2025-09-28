@@ -7,6 +7,15 @@ abstract class Media{
     private string $atuhor;
     private bool $available;
 
+    /**
+     * Constructeur de la classe Media.
+     * 
+     * @param string $title
+     * @param string $author
+     * @param bool $available
+     * @param int|null $id
+     * 
+     */
     public function __construct(string $title, string $atuhor, bool $available, ?int $id = null)
     {
         $this->id = $id;
@@ -15,47 +24,97 @@ abstract class Media{
         $this->available = $available;
     }
 
+    /**
+     * récupére l'id du media.
+     * 
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    /**
+     * récupére le titre du media.
+     * 
+     * @return string
+     */
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getAuthor(): ?string
+    /**
+     * récupére l'auteur du media.
+     * 
+     * @return string
+     */
+    public function getAuthor(): string
     {
         return $this->atuhor;
     }
 
-    public function getAvailable(): ?bool
+    /**
+     * récupére la disponibilité du media.
+     * 
+     * @return bool
+     */
+    public function getAvailable(): bool
     {
         return $this->available;
     }
 
-    public function setId(int $id)
+    /**
+     * Définit l'id du media.
+     * 
+     * @param string $title
+     *
+     */
+    public function setMediaId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function setTitle(string $title)
+    /**
+     * Définit le titre du media.
+     * 
+     * @param string $title
+     *
+     */
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function setAuthor(string $atuhor)
+    /**
+     * Définit l'auteur du media.
+     * 
+     * @param string $atuhor
+     *
+     */
+    public function setAuthor(string $atuhor): void
     {
         $this->atuhor = $atuhor;
     }
 
-    public function setAvailable(bool $available)
+    /**
+     * Définit la disponibilité du media.
+     * 
+     * @param bool $available
+     *
+     */
+    public function setAvailable(bool $available): void
     {
         $this->available = $available;
     }
 
-    public function rendre()
+    /**
+     * Définit la disponibilité du media en true.
+     * 
+     * @param bool $available
+     *
+     */
+    public function rendre(): bool
     {
         if($this->getAvailable() === false){
             $this->setAvailable(true);
@@ -65,7 +124,13 @@ abstract class Media{
         }
     }
 
-    public function emprunter()
+    /**
+     * Définit la disponibilité du media en false.
+     * 
+     * @param bool $available
+     *
+     */
+    public function emprunter(): bool
     {
         if($this->getAvailable() === true){
             $this->setAvailable(false);

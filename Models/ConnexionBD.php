@@ -1,6 +1,10 @@
 <?php
 
-
+/**
+ * Cette fonction permet la connexion entre la plateforme et la base de donnée
+ * 
+ * @return PDO $connexion
+ */
 function Connexion(){
     $password = "";
     $login = "root";

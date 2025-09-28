@@ -7,6 +7,19 @@ class Album extends Media{
     private string $editor;
     private array $songs;
 
+    /**
+     * Constructeur de la classe Album.
+     * 
+     * @param string $title
+     * @param string $author
+     * @param bool $available
+     * @param int $trackNumber
+     * @param string $editor
+     * @param array $songs
+     * @param int|null $mediaId
+     * @param int|null $id
+     * 
+     */
     public function __construct(string $title, string $author, bool $available, int $trackNumber, string $editor, array $songs, ?int $mediaId = null, ?int $id = null)
     {
         parent::__construct($title, $author, $available, $mediaId);
@@ -16,52 +29,97 @@ class Album extends Media{
         $this->songs = $songs;
     }
 
+   /**
+     * récupére l'id de l'album.
+     * 
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
     
+   /**
+     * récupére l'id du media de l'album.
+     * 
+     * @return int|null
+     */
     public function getMediaId(): ?int
     {
         return parent::getId();
     }
 
-    public function getTrackNumber(): ?int
+   /**
+     * récupére le nombre de musique de l'album.
+     * 
+     * @return int
+     */
+    public function getTrackNumber(): int
     {
         return $this->trackNumber;
     }
 
-    public function getEditor(): ?string
+   /**
+     * récupére l'éditeur de l'album.
+     * 
+     * @return string
+     */
+    public function getEditor(): string
     {
         return $this->editor;
     }
 
+    /**
+     * récupére la liste des musiques de l'album.
+     * 
+     * @return array
+     */
     public function getSongs(): array
     {
         return $this->songs;
     }
 
-    public function setId(int $id)
+    /**
+     * Définit l'id de l'album.
+     * 
+     * @param int $id
+     *
+     */
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function setMediaId(int $mediaId)
-    {
-        parent::setId($mediaId);
-    }
-
-    public function setTrackNumber(int $trackNumber)
+    /**
+     * Définit le nombre de musiques de l'album.
+     * 
+     * @param int $trackNumber
+     *
+     */
+    public function setTrackNumber(int $trackNumber): void
     {
         $this->trackNumber = $trackNumber;
     }
 
-    public function setEditor(string $editor)
+    /**
+     * Définit l'éditeur de l'album.
+     * 
+     * @param string $editor
+     *
+     */
+    public function setEditor(string $editor): void
     {
         $this->editor = $editor;
     }
 
-    public function addSong(Song $song): ?bool
+    /**
+     * Ajoute une musique dans la liste des musiques de l'album.
+     * 
+     * @param Song $song
+     * @return bool
+     *
+     */
+    public function addSong(Song $song): bool
     {
         if(!in_array($song, $this->songs)){
             array_push($this->songs, $song);
@@ -74,6 +132,12 @@ class Album extends Media{
         }
     }
 
+    /**
+     * Récupére un album via son identifiant.
+     * 
+     * @param int $id
+     * @return Album Objet Album
+     */
     public static function getAlbumById(int $id){
         try{
 
@@ -113,7 +177,14 @@ class Album extends Media{
         }
     }
 
-    public function removeSong(Song $song): ?bool
+    /**
+     * Retire une musique dans la liste des musiques de l'album.
+     * 
+     * @param Song $song
+     * @return bool
+     *
+     */
+    public function removeSong(Song $song): bool
     {
         if(in_array($song, $this->songs)){
             $this->songs = array_diff($this->songs,$song);
@@ -126,7 +197,12 @@ class Album extends Media{
         }
     }
 
-    public function addNewAlbum(){
+    /**
+     * Ajoute l'album en base de donnée.
+     * 
+     * @return Album Objet Album
+     */
+    public function addNewAlbum(): Album{
         try{
             $connexion = connexion();
             $request = $connexion->prepare("INSERT INTO media (title, author, available) VALUES(:title, :author, :availble);");
@@ -166,7 +242,13 @@ class Album extends Media{
         }
     }
 
-    public function updateAlbum(){
+    /**
+     * Modifie l'album en base de donnée.
+     * 
+     * @return Album Objet Album
+     */
+    public function updateAlbum(): Album
+    {
         try{
             $connexion = connexion();
             $request = $connexion->prepare("UPDATE media SET title=:title, author=:author, available=:available WHERE id=:mediaId;");
@@ -201,7 +283,13 @@ class Album extends Media{
         }
     }
 
-    public function removeAlbum(){
+    /**
+     * Retire l'album de la base de donnée.
+     * 
+     * @return bool
+     */
+    public function removeAlbum(): bool
+    {
         try{
             $connexion = connexion();
             
@@ -233,7 +321,13 @@ class Album extends Media{
         }
     }
 
-    public static function getAllAlbums(){
+    /**
+     * Récupére l'ensemble des Albums de la base de donnée
+     * 
+     * @return array
+     */
+    public static function getAllAlbums(): array
+    {
         try{
             $albumsList = [];
 
