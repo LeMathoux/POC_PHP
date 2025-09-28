@@ -22,9 +22,6 @@
                 <option value="title" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'title') echo 'selected'; ?>>
                     Titre
                 </option>
-                <option value="author" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'author') echo 'selected'; ?>>
-                    Author
-                </option>
                 <option value="note" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'note') echo 'selected'; ?>>
                     Note
                 </option>

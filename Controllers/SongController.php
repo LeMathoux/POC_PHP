@@ -49,16 +49,16 @@ class SongController{
                         },$searchWords);
                     },$titleWords);
                 },$songs);
-                $albums = $filteredSongs;
+                $songs = $filteredSongs;
 
             }else{
-                $albums = $filterdArray;
+                $songs = $filterdArray;
             }
         }
 
         if(isset($_POST['sort']) && !empty($_POST['sort'])){
             $sortBy = $_POST['sort'] ?? 'title';
-            usort($albums, function($a, $b) use ($sortBy) {
+            usort($songs, function($a, $b) use ($sortBy) {
                 switch ($sortBy) {
                     case 'title':
                         return strcmp(strtolower($a->getTitle()), strtolower($b->getTitle()));
