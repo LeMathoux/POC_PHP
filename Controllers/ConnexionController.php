@@ -58,6 +58,7 @@ class ConnexionController{
     public function registration(): void
     {
         $errors = [];
+        $passContainUserName = false;
         $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if(isset($_POST['userName']) && !empty($_POST['userName']) && isset($_POST['email']) && !empty($_POST['email']) && isset($_POST['password']) && !empty($_POST['password']) && isset($_POST['passwordConfirm']) && !empty($_POST['passwordConfirm'])){
@@ -70,7 +71,14 @@ class ConnexionController{
                 if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     if($password === $passwordConfirm){
                         if(preg_match($pattern, $password)){
-                            if (stripos($password, $userName) !== false) {
+                            $userNameWords = explode(" ",$userName);
+                            foreach($userNameWords as $userNameWord){
+                                if(stripos($password, $userNameWord) !== false){
+                                    $passContainUserName = true;
+                                }
+                            }
+
+                            if ($passContainUserName) {
                                 array_push($errors,"Le mot de passe ne doit pas contenir votre nom de compte !");   
                             }else{
                                 $newUser = new User($email, $password, $userName, null, null, null, null);
