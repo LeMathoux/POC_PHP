@@ -16,6 +16,12 @@
  */
 class SongController{
     
+    /**
+     * Affiche la liste des musiques et gére le traitement du filtre.
+     * 
+     * Cette fonction recupére tout les films et les affiche dans la vue.
+     * Il gére aussi les filtres : titre, auteur, note, et la durée.
+     */
     public function All(): void
     {
         $songs = Song::getAllSong();
