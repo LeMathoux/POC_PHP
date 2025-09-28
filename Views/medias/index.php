@@ -25,6 +25,9 @@
                 <option value="author" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'author') echo 'selected'; ?>>
                     Auteur
                 </option>
+                <option value="media_type" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'media_type') echo 'selected'; ?>>
+                    Type de média
+                </option>
                 <option value="available" <?php if(isset($_POST['sort']) && $_POST['sort'] === 'available') echo 'selected'; ?>>
                     Disponible
                 </option>          

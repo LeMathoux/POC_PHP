@@ -79,6 +79,8 @@ class MediaController{
                         return strcmp(strtolower($a->getAuthor()), strtolower($b->getAuthor()));
                     case 'available':
                         return $a->getAvailable() <=> $b->getAvailable();
+                    case 'media_type':
+                        return strcmp(strtolower(get_class($a)), strtolower(get_class($b)));
                     default:
                         return 0;
                 }
