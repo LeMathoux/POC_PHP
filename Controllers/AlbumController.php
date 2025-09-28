@@ -1,7 +1,27 @@
 <?php
 
+/**
+ * Controller AlbumController gérant les actions liées aux Albums
+ * 
+ * Ce controller contient la gestion des actions liées aux Albums :
+ * 
+ * All() => Affichage des Albums et gestion des filtres.
+ * show(int $id) => Affiche les informations concernant un Album.
+ * rendre(int $id) => Change le statut disponible de l'Album en disponible.
+ * emprunter(int $id) => Change le statut disponible de l'Album en non disponible.
+ * delete(int $id) => Retire l'Album de la base de donnée.
+ * update(int $id) => Met à jour les informations d'un Album.
+ * new() => Ajouter un nouvel Album en base de donnée.
+ * 
+ */
 class AlbumController{
     
+    /**
+     * Affiche la liste des albums et gére le traitement du filtre.
+     * 
+     * Cette fonction recupére tout les albums et les affiche dans la vue.
+     * Il gére aussi les filtres : titre, auteur, éditeur, disponible, et nb_de_titre.
+     */
     public function All(): void
     {
         $albums = Album::getAllAlbums();
@@ -66,6 +86,15 @@ class AlbumController{
         require_once('Views/albums/index.php');
     }
 
+    /**
+     * Supprime l'album de la base de donnée
+     * 
+     * Cette fonction supprime l'album et renvoie vers la liste des albums.
+     * Si l'utilisateur n'est pas connecté renvoie vers la page de connexion.
+     * Si l'album n'existe pas, renvoie vers une page 404 not found.
+     * 
+     * @param int $id L'identifiant de l'album.
+     */
     public function delete(int $id): void
     {
         $album = Album::getAlbumById($id);
@@ -83,6 +112,15 @@ class AlbumController{
         }
     }
 
+    /**
+     * Change le statut disponibilité de l'album
+     * 
+     * Cette fonction change le statut disponibilité de l'album en disponible et renvoie vers la liste des albums.
+     * Si l'utilisateur n'est pas connecté renvoie vers la page de connexion.
+     * Si l'album n'existe pas, renvoie vers une page 404 not found.
+     * 
+     * @param int $id L'identifiant de l'album.
+     */
     public function rendre(int $id){
         $album = Album::getAlbumById($id);
         if($album instanceof Album){
@@ -100,6 +138,15 @@ class AlbumController{
         }
     }
 
+    /**
+     * Change le statut disponibilité de l'album
+     * 
+     * Cette fonction change le statut disponibilité de l'album en non disponible et renvoie vers la liste des albums.
+     * Si l'utilisateur n'est pas connecté renvoie vers la page de connexion.
+     * Si l'album n'existe pas, renvoie vers une page 404 not found.
+     * 
+     * @param int $id L'identifiant de l'album.
+     */
     public function emprunter(int $id){
         $album = Album::getAlbumById($id);
         if($album instanceof Album){
@@ -117,6 +164,13 @@ class AlbumController{
         }
     }
 
+    /**
+     * Affiche les informations d'un album.
+     * 
+     * Cette fonction affiche la vue du détail d'un album et les boutons d'actions associés. 
+     * 
+     * @param int $id L'identifiant de l'album
+     */
     public function show(int $id){
         $album = Album::getAlbumById($id);
         if($album instanceof Album){
@@ -128,6 +182,14 @@ class AlbumController{
         }
     }
 
+    /**
+     * Ajoute un nouvel album dans la base de donnée.
+     * 
+     * Cette fonction ajoute un nouvel album et renvoie vers la liste des albums.
+     * Si un ou plusieurs champ(s) est/sont invalide(s), ajoute l'erreur pour l'afficher dans la vue.
+     * Si l'utilisateur n'est pas connecté, renvoie vers la page de connexion.
+     * 
+     */
     public function new(): void
     {
         $errors = [];
@@ -154,6 +216,15 @@ class AlbumController{
         require_once('Views/albums/new_album.php');
     }
 
+    /**
+     * Met à jour les informations de l'album dans la base de donnée.
+     * 
+     * Cette fonction met à jour les informations de l'album et renvoie vers la liste des albums.
+     * Si un ou plusieurs champ(s) est/sont invalide(s), ajoute l'erreur pour l'afficher dans la vue.
+     * Si l'utilisateur n'est pas connecté, renvoie vers la page de connexion.
+     * 
+     * @param int $id L'identifiant de l'album.
+     */
     public function update(int $id){
         $errors = [];
         $updatedAlbum = Album::getAlbumById($id);

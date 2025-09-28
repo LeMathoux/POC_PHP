@@ -1,12 +1,31 @@
 <?php
 
+/**
+ * Controller MediaController gérant les actions liées aux Médias
+ * 
+ * Ce controller contient la gestion des actions liées aux Médias :
+ * 
+ * All() => Affichage des Médias et gestion des filtres.
+ * 
+ */
 class MediaController{
 
+    /**
+     * Affiche la vue des catégories de médias.
+     * 
+     * Cette fonction affiche la vue catégories de médias.
+     */
     public function index(): void
     {
         require_once('Views/mediaIndex.php');
     }
 
+    /**
+     * Affiche la liste des médias et gére le traitement du filtre.
+     * 
+     * Cette fonction recupére tout les médias et les affiche dans la vue.
+     * Il gére aussi les filtres : titre, auteur, et disponible.
+     */
     public function all(): void
     {
         $albums = Album::getAllAlbums();

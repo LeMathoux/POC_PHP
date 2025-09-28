@@ -1,5 +1,19 @@
 <?php
 
+/**
+ * Controller SongController gérant les actions liées aux musiques
+ * 
+ * Ce controller contient la gestion des actions liées aux musiques :
+ * 
+ * All() => Affichage des musiques et gestion des filtres.
+ * show(int $id) => Affiche les informations concernant une musique.
+ * rendre(int $id) => Change le statut disponible d'une musique en disponible.
+ * emprunter(int $id) => Change le statut disponible d'une musique en non disponible.
+ * delete(int $id) => Retire la musique de la base de donnée.
+ * update(int $id) => Met à jour les informations d'une musique.
+ * new() => Ajouter une nouvelle musique en base de donnée.
+ * 
+ */
 class SongController{
     
     public function All(): void
@@ -54,6 +68,15 @@ class SongController{
         require_once('Views/songs/index.php');
     }
 
+    /**
+     * Ajoute une nouvell musique dans la base de donnée.
+     * 
+     * Cette fonction ajoute une nouvelle musiques et renvoie vers la liste des musiques.
+     * Si un ou plusieurs champ(s) est/sont invalide(s), ajoute l'erreur pour l'afficher dans la vue.
+     * Si la note n'est pas comprise entre 0 et 10 (inclus), ajoute l'erreur pour l'afficher dans la vue.
+     * Si l'utilisateur n'est pas connecté, renvoie vers la page de connexion.
+     * 
+     */
     public function new(): void
     {
         $errors = [];
@@ -61,16 +84,19 @@ class SongController{
         if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['note']) && !empty($_POST['note']) && isset($_POST['albumId']) && !empty($_POST['albumId'])){
-                    $title = htmlspecialchars($_POST['title']);
-                    $duration = htmlspecialchars($_POST['duration']);
-                    $note = htmlspecialchars($_POST['note']);
-                    $albumId = htmlspecialchars($_POST['albumId']);
+                    if($_POST['note']>=0 && $_POST['note']<=10){
+                        $title = htmlspecialchars($_POST['title']);
+                        $duration = htmlspecialchars($_POST['duration']);
+                        $note = htmlspecialchars($_POST['note']);
+                        $albumId = htmlspecialchars($_POST['albumId']);
 
-                    $newSong = new Song($title, $note, $duration, $albumId, null);
-                    $newSong->addNewSong();
+                        $newSong = new Song($title, $note, $duration, $albumId, null);
+                        $newSong->addNewSong();
 
-                    header("location:".BASE_URL."/song/All");
-
+                        header("location:".BASE_URL."/song/All");
+                    }else{
+                        array_push($errors,"La note doit être comprise entre 0 et 10 (inclus).");
+                    }
                 }else{
                     array_push($errors,"Un ou plusieurs champ(s) vide(s) !");
                 }
@@ -81,6 +107,16 @@ class SongController{
         require_once('Views/songs/new_song.php');
     }
 
+    /**
+     * Met à jour les informations de la musique dans la base de donnée.
+     * 
+     * Cette fonction met à jour les informations de la musique et renvoie vers la liste des musiques.
+     * Si un ou plusieurs champ(s) est/sont invalide(s), ajoute l'erreur pour l'afficher dans la vue.
+     * Si la note n'est pas comprise entre 0 et 10 (inclus), ajoute l'erreur pour l'afficher dans la vue.
+     * Si l'utilisateur n'est pas connecté, renvoie vers la page de connexion.
+     * 
+     * @param int $id L'identifiant de la musique.
+     */
     public function update(int $id){
         $errors = [];
         $albums = Album::getAllAlbums();
@@ -89,20 +125,23 @@ class SongController{
             if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['note']) && !empty($_POST['note']) && isset($_POST['albumId']) && !empty($_POST['albumId'])){
-                        $title = htmlspecialchars($_POST['title']);
-                        $duration = htmlspecialchars($_POST['duration']);
-                        $note = htmlspecialchars($_POST['note']);
-                        $albumId = htmlspecialchars($_POST['albumId']);
+                        if($_POST['note']>=0 && $_POST['note']<=10){
+                            $title = htmlspecialchars($_POST['title']);
+                            $duration = htmlspecialchars($_POST['duration']);
+                            $note = htmlspecialchars($_POST['note']);
+                            $albumId = htmlspecialchars($_POST['albumId']);
 
-                        $updatedSong->setTitle($title);
-                        $updatedSong->setDuration($duration);
-                        $updatedSong->setNote($note);
-                        $updatedSong->setAlbumId($albumId);
+                            $updatedSong->setTitle($title);
+                            $updatedSong->setDuration($duration);
+                            $updatedSong->setNote($note);
+                            $updatedSong->setAlbumId($albumId);
 
-                        $updatedSong->updateSong();
+                            $updatedSong->updateSong();
 
-                        header("location:".BASE_URL."/song/All");
-
+                            header("location:".BASE_URL."/song/All");
+                        }else{
+                            array_push($errors,"La note doit être comprise entre 0 et 10 (inclus).");
+                        }
                     }else{
                         array_push($errors,"Un ou plusieurs champ(s) vide(s) !");
                     }
@@ -118,6 +157,13 @@ class SongController{
         }
     }
 
+    /**
+     * Affiche les informations d'une musique.
+     * 
+     * Cette fonction affiche la vue du détail d'une musique et les boutons d'actions associés. 
+     * 
+     * @param int $id L'identifiant de la musique.
+     */
     public function show(int $id){
         $song = Song::getSongById($id);
         if($song instanceof Song){

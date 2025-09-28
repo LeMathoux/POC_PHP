@@ -1,7 +1,29 @@
 <?php
 
+/**
+ * Controller MovieController gérant les actions liées aux films
+ * 
+ * Ce controller contient la gestion des actions liées aux films :
+ * 
+ * All() => Affichage des films et gestion des filtres.
+ * show(int $id) => Affiche les informations concernant un film.
+ * rendre(int $id) => Change le statut disponible du films en disponible.
+ * emprunter(int $id) => Change le statut disponible du film en non disponible.
+ * delete(int $id) => Retire le film de la base de donnée.
+ * update(int $id) => Met à jour les informations d'un film.
+ * new() => Ajouter un nouveau film en base de donnée.
+ * 
+ */
 class MovieController{
 
+    /**
+     * Ajoute un nouveau film dans la base de donnée.
+     * 
+     * Cette fonction ajoute un nouveau film et renvoie vers la liste des films.
+     * Si un ou plusieurs champ(s) est/sont invalide(s), ajoute l'erreur pour l'afficher dans la vue.
+     * Si l'utilisateur n'est pas connecté, renvoie vers la page de connexion.
+     * 
+     */
     public function new(): void
     {
         $errors = [];
@@ -30,6 +52,15 @@ class MovieController{
         require_once('Views/movies/new_movie.php');
     }
 
+    /**
+     * Met à jour les informations du film dans la base de donnée.
+     * 
+     * Cette fonction met à jour les informations du film et renvoie vers la liste des films.
+     * Si un ou plusieurs champ(s) est/sont invalide(s), ajoute l'erreur pour l'afficher dans la vue.
+     * Si l'utilisateur n'est pas connecté, renvoie vers la page de connexion.
+     * 
+     * @param int $id L'identifiant du film.
+     */
     public function update(int $id){
         $errors = [];
         $updatedMovie = Movie::getMovieById($id);
@@ -68,7 +99,13 @@ class MovieController{
             $controller->noFoundError();
         }
     }
-        
+    
+    /**
+     * Affiche la liste des films et gére le traitement du filtre.
+     * 
+     * Cette fonction recupére tout les films et les affiche dans la vue.
+     * Il gére aussi les filtres : titre, auteur, disponible, et la durée.
+     */
     public function All(): void
     {
         $movies = Movie::getAllMovies();
@@ -130,6 +167,13 @@ class MovieController{
         require_once('Views/movies/index.php');
     }
 
+    /**
+     * Affiche les informations d'un film.
+     * 
+     * Cette fonction affiche la vue du détail d'un film et les boutons d'actions associés. 
+     * 
+     * @param int $id L'identifiant du film
+     */
     public function show(int $id){
         $movie = Movie::getMovieById($id);
         if($movie instanceof Movie){
@@ -141,6 +185,15 @@ class MovieController{
         }
     }
 
+    /**
+     * Change le statut disponibilité du film
+     * 
+     * Cette fonction change le statut disponibilité du film en disponible et renvoie vers la liste des films.
+     * Si l'utilisateur n'est pas connecté renvoie vers la page de connexion.
+     * Si l'album n'existe pas, renvoie vers une page 404 not found.
+     * 
+     * @param int $id L'identifiant du film.
+     */
     public function rendre(int $id){
         $movie = Movie::getMovieById($id);
         if($movie instanceof Movie){
@@ -158,6 +211,15 @@ class MovieController{
         }
     }
 
+    /**
+     * Change le statut disponibilité du film
+     * 
+     * Cette fonction change le statut disponibilité du film en non disponible et renvoie vers la liste des films.
+     * Si l'utilisateur n'est pas connecté renvoie vers la page de connexion.
+     * Si l'album n'existe pas, renvoie vers une page 404 not found.
+     * 
+     * @param int $id L'identifiant du film.
+     */
     public function emprunter(int $id){
         $movie = Movie::getMovieById($id);
         if($movie instanceof Movie){
@@ -175,6 +237,15 @@ class MovieController{
         }
     }
 
+    /**
+     * Supprime le film de la base de donnée
+     * 
+     * Cette fonction supprime le film et renvoie vers la liste des films.
+     * Si l'utilisateur n'est pas connecté renvoie vers la page de connexion.
+     * Si l'album n'existe pas, renvoie vers une page 404 not found.
+     * 
+     * @param int $id L'identifiant du film.
+     */
     public function delete(int $id): void
     {
         $movie = Movie::getMovieById($id);
