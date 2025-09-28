@@ -1,7 +1,7 @@
 # POC_PHP - Médiathèque
 
 Médiathèque est une plateforme d'emprunt de médias. Sur celle-ci vous pourrez trouvez le média de votre choix parmis les catégories : Livres, Films et Albums.
-En tant q'utilisateur connecté, vous avez la possibilité d'ajouter, de modifier, de supprimer, d'emprunter, et de rendre un média.
+En tant qu'utilisateur connecté, vous avez la possibilité d'ajouter, de modifier, de supprimer, d'emprunter, et de rendre un média.
 En tant qu'utilisateur non connecté, vous avec la possibilité de consulter la liste des médias.
 
 Bonne découverte sur la plateforme Médiathèque.
