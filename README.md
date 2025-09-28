@@ -10,7 +10,7 @@ Bonne découverte sur la plateforme Médiathèque.
 
 1) Télécharger le zip du projet et le placer dans le dossier localhost (xampp) ou www (wampp).
 2) Télécharger le fichier [sql](Docs/mediatheque.sql) pour importer la base de données dans mysql.
-3) Changer les parametres de connexion à la base de donnée (si besoin) dans le fichier [connexionBD.php](Models/connexionBD.php)
+3) Changer les parametres de connexion à la base de donnée (si besoin) dans le fichier [ConnexionBD.php](Models/ConnexionBD.php)
 4) accéder à la plateforme  via le lien suivant : [Accueil](http://localhost/POC_PHP/)
 5) Se conneceter pour accéder aux fonctionnalités (ajouter, modifier, supprimer, emprunter, et rendre) avec ces identifiants :
   
