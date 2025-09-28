@@ -181,4 +181,30 @@ class SongController{
             $controller->noFoundError();
         }
     }
+
+    /**
+     * Supprime la musique de la base de donnée
+     * 
+     * Cette fonction supprime la musique et renvoie vers la liste des musiques.
+     * Si l'utilisateur n'est pas connecté renvoie vers la page de connexion.
+     * Si l'album n'existe pas, renvoie vers une page 404 not found.
+     * 
+     * @param int $id L'identifiant de la musique.
+     */
+    public function delete(int $id): void
+    {
+        $song = Song::getSongById($id);
+        if($song instanceof Song){
+            if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
+                $song->removeSong();
+                header("location:".BASE_URL."/song/All");
+            }else{
+                header("location:".BASE_URL."/connexion");
+            }
+        }else{
+            require_once('Controllers/ErrorController.php');
+            $controller = new ErrorController();
+            $controller->noFoundError();
+        }
+    }
 }

@@ -228,13 +228,13 @@ class Song{
      * 
      * @return boolean
      */
-    public function removeSong(Song $song): bool
+    public function removeSong(): bool
     {
         try{
             $connexion = connexion();
             $request = $connexion->prepare("DELETE FROM song WHERE id=:id");
 
-            $id = $song->getId();
+            $id = $this->getId();
 
             $request->bindParam(":id",$id);
 
