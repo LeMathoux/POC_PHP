@@ -130,7 +130,7 @@ class Song{
      */
     public function setAlbumId(int $albumId)
     {
-        $this->id = $albumId;
+        $this->albumId = $albumId;
     }
 
     /**

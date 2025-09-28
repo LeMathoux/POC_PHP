@@ -27,7 +27,7 @@ class SongController{
         $songs = Song::getAllSong();
 
         if(isset($_POST['search']) && !empty($_POST['search'])){
-            $filter = strtolower(htmlspecialchars($_POST['search']));
+            $filter = strtolower(htmlspecialchars($_POST['search'],ENT_NOQUOTES));
             $filteredSongs = [];
             $filterdArray = array_filter($songs, function($song) use($filter){
                 return stripos($song->getTitle(), $filter) !== false;
@@ -91,10 +91,10 @@ class SongController{
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['note']) && !empty($_POST['note']) && isset($_POST['albumId']) && !empty($_POST['albumId'])){
                     if($_POST['note']>=0 && $_POST['note']<=10){
-                        $title = htmlspecialchars($_POST['title']);
-                        $duration = htmlspecialchars($_POST['duration']);
-                        $note = htmlspecialchars($_POST['note']);
-                        $albumId = htmlspecialchars($_POST['albumId']);
+                        $title = htmlspecialchars($_POST['title'],ENT_NOQUOTES);
+                        $duration = htmlspecialchars($_POST['duration'],ENT_NOQUOTES);
+                        $note = htmlspecialchars($_POST['note'],ENT_NOQUOTES);
+                        $albumId = htmlspecialchars($_POST['albumId'],ENT_NOQUOTES);
 
                         $newSong = new Song($title, $note, $duration, $albumId, null);
                         $newSong->addNewSong();
@@ -132,10 +132,10 @@ class SongController{
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['duration']) && !empty($_POST['duration']) && isset($_POST['note']) && !empty($_POST['note']) && isset($_POST['albumId']) && !empty($_POST['albumId'])){
                         if($_POST['note']>=0 && $_POST['note']<=10){
-                            $title = htmlspecialchars($_POST['title']);
-                            $duration = htmlspecialchars($_POST['duration']);
-                            $note = htmlspecialchars($_POST['note']);
-                            $albumId = htmlspecialchars($_POST['albumId']);
+                            $title = htmlspecialchars($_POST['title'],ENT_NOQUOTES);
+                            $duration = htmlspecialchars($_POST['duration'],ENT_NOQUOTES);
+                            $note = htmlspecialchars($_POST['note'],ENT_NOQUOTES);
+                            $albumId = htmlspecialchars($_POST['albumId'],ENT_NOQUOTES);
 
                             $updatedSong->setTitle($title);
                             $updatedSong->setDuration($duration);

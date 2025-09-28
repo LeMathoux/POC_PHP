@@ -196,10 +196,10 @@ class AlbumController{
         if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['editor']) && !empty($_POST['editor']) && isset($_POST['available']) && ($_POST['available'] === '1' || $_POST['available'] === '0')){
-                    $title = htmlspecialchars($_POST['title']);
-                    $author = htmlspecialchars($_POST['author']);
-                    $editor = htmlspecialchars($_POST['editor']);
-                    $available = htmlspecialchars($_POST['available']);
+                    $title = htmlspecialchars($_POST['title'],ENT_NOQUOTES);
+                    $author = htmlspecialchars($_POST['author'],ENT_NOQUOTES);
+                    $editor = htmlspecialchars($_POST['editor'],ENT_NOQUOTES);
+                    $available = htmlspecialchars($_POST['available'],ENT_NOQUOTES);
 
                     $newAlbum = new Album($title, $author, $available, 0, $editor, [], null, null);
                     $newAlbum->addNewAlbum();
@@ -232,10 +232,10 @@ class AlbumController{
             if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['editor']) && !empty($_POST['editor']) && isset($_POST['available']) && ($_POST['available'] === '1' || $_POST['available'] === '0')){
-                    $title = htmlspecialchars($_POST['title']);
-                    $author = htmlspecialchars($_POST['author']);
-                    $editor = htmlspecialchars($_POST['editor']);
-                    $available = htmlspecialchars($_POST['available']);
+                    $title = htmlspecialchars($_POST['title'],ENT_NOQUOTES);
+                    $author = htmlspecialchars($_POST['author'],ENT_NOQUOTES);
+                    $editor = htmlspecialchars($_POST['editor'],ENT_NOQUOTES);
+                    $available = htmlspecialchars($_POST['available'],ENT_NOQUOTES);
 
                         $updatedAlbum->setTitle($title);
                         $updatedAlbum->setAuthor($author);

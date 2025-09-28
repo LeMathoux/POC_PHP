@@ -35,7 +35,7 @@ class MediaController{
         $medias = array_merge($books, $albums, $movies);
 
         if(isset($_POST['search']) && !empty($_POST['search'])){
-            $filter = strtolower(htmlspecialchars($_POST['search']));
+            $filter = strtolower(htmlspecialchars($_POST['search'],ENT_NOQUOTES));
             $filteredMedias = [];
             $filterdArray = array_filter($medias, function($media) use($filter){
                 return stripos($media->getTitle(), $filter) !== false ||

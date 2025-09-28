@@ -111,7 +111,7 @@ class MovieController{
         $movies = Movie::getAllMovies();
 
         if(isset($_POST['search']) && !empty($_POST['search'])){
-            $filter = strtolower(htmlspecialchars($_POST['search']));
+            $filter = strtolower(htmlspecialchars($_POST['search'],ENT_NOQUOTES));
             $filteredMovies = [];
             $filterdArray = array_filter($movies, function($movie) use($filter){
                 return stripos($movie->getTitle(), $filter) !== false ||

@@ -27,7 +27,7 @@ class BookController{
         $books = Book::getAllBooks();
 
         if(isset($_POST['search']) && !empty($_POST['search'])){
-            $filter = strtolower(htmlspecialchars($_POST['search']));
+            $filter = strtolower(htmlspecialchars($_POST['search'],ENT_NOQUOTES));
             $filteredBooks = [];
             $filterdArray = array_filter($books, function($book) use($filter){
                 return stripos($book->getTitle(), $filter) !== false ||
@@ -193,10 +193,10 @@ class BookController{
             if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['page_number']) && !empty($_POST['page_number']) && isset($_POST['available']) && !empty($_POST['available'])){
-                        $title = htmlspecialchars($_POST['title']);
-                        $author = htmlspecialchars($_POST['author']);
-                        $pageNumber = htmlspecialchars($_POST['page_number']);
-                        $available = htmlspecialchars($_POST['available']);
+                        $title = htmlspecialchars($_POST['title'],ENT_NOQUOTES);
+                        $author = htmlspecialchars($_POST['author'],ENT_NOQUOTES);
+                        $pageNumber = htmlspecialchars($_POST['page_number'],ENT_NOQUOTES);
+                        $available = htmlspecialchars($_POST['available'],ENT_NOQUOTES);
 
                         $updatedBook->setTitle($title);
                         $updatedBook->setAuthor($author);
@@ -236,10 +236,10 @@ class BookController{
         if(isset($_SESSION['currentUser']) && !empty($_SESSION['currentUser'])){
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if(isset($_POST['title']) && !empty($_POST['title']) && isset($_POST['author']) && !empty($_POST['author']) && isset($_POST['page_number']) && !empty($_POST['page_number']) && isset($_POST['available']) && !empty($_POST['available'])){
-                    $title = htmlspecialchars($_POST['title']);
-                    $author = htmlspecialchars($_POST['author']);
-                    $pageNumber = htmlspecialchars($_POST['page_number']);
-                    $available = htmlspecialchars($_POST['available']);
+                    $title = htmlspecialchars($_POST['title'],ENT_NOQUOTES);
+                    $author = htmlspecialchars($_POST['author'],ENT_NOQUOTES);
+                    $pageNumber = htmlspecialchars($_POST['page_number'],ENT_NOQUOTES);
+                    $available = htmlspecialchars($_POST['available'],ENT_NOQUOTES);
 
                     $newBook = new Book($title, $author, $available, $pageNumber, null, null);
                     $newBook->addNewBook();
